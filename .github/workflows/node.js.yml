@@ -8,6 +8,7 @@ on: [push, pull_request]
 jobs:
     build_server:
         name: Server CI
+        working-directory: server
         runs-on: ubuntu-latest
 
         strategy:
@@ -28,6 +29,7 @@ jobs:
             - run: yarn check-all
     build_client:
         name: Client CI
+        working-directory: client
         runs-on: ubuntu-latest
 
         strategy:
