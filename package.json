@@ -1,5 +1,11 @@
 {
     "name": "sudocluedo",
     "version": "0.0.1",
-    "license": "CC-BY-NC-SA-4.0"
+    "license": "CC-BY-NC-SA-4.0",
+    "scripts": {
+        "install:server": "cd server && yarn install --frozen-lockfile",
+        "install:client": "cd client && yarn install --frozen-lockfile",
+        "check:server": "cd server && yarn check-all",
+        "check:client": "cd client && yarn check-all"
+    }
 }
