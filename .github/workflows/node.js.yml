@@ -7,8 +7,10 @@ on: [push, pull_request]
 
 jobs:
     build_server:
+        defaults:
+            run:
+                working-directory: server
         name: Server CI
-        working-directory: server
         runs-on: ubuntu-latest
 
         strategy:
@@ -27,25 +29,3 @@ jobs:
             - run: yarn install --frozen-lockfile
             - run: yarn build
             - run: yarn check-all
-    build_client:
-        name: Client CI
-        working-directory: client
-        runs-on: ubuntu-latest
-
-        strategy:
-            matrix:
-                node-version: [16, 17]
-                # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-        steps:
-            - uses: actions/checkout@v2
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v2
-              with:
-                  node-version: ${{ matrix.node-version }}
-                  cache: 'yarn'
-            - run: cd client
-            - run: yarn install --frozen-lockfile
-            - run: yarn build
-            # will be added once client is actually set up
-            # - run: yarn check-all
