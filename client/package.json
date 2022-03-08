@@ -1,0 +1,23 @@
+{
+    "name": "sudocluedo-client",
+    "version": "1.0.0",
+    "main": "build/index.js",
+    "license": "CC-BY-NC-SA-4.0",
+    "scripts": {
+        "dev": "nodemon src/index.ts",
+        "lint": "eslint --ext .ts src --max-warnings=0",
+        "typecheck": "tsc --noEmit",
+        "build": "tsc",
+        "check-all": "yarn lint && yarn typecheck"
+    },
+    "devDependencies": {
+        "@types/node": "^17.0.21",
+        "@typescript-eslint/eslint-plugin": "^5.14.0",
+        "@typescript-eslint/parser": "^5.14.0",
+        "eslint": "^8.10.0",
+        "eslint-config-prettier": "^8.5.0",
+        "prettier": "^2.5.1",
+        "ts-node": "^10.7.0",
+        "typescript": "^4.6.2"
+    }
+}

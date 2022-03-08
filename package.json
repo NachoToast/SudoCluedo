@@ -1,6 +1,5 @@
 {
     "name": "sudocluedo",
     "version": "0.0.1",
-    "main": "index.js",
-    "license": "CC-BY-SA-4.0"
+    "license": "CC-BY-NC-SA-4.0"
 }
