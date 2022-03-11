@@ -2,6 +2,10 @@ import express from 'express';
 import Lobby from './Lobby';
 import { createServer } from 'http';
 import routes from '../routes';
+import { BaseUser } from '../../../shared/User';
+import { promisify } from 'util';
+
+const wait = promisify(setTimeout);
 
 /** Manages listing, creation, and deletion of lobbies. */
 export default class ServerHub {
@@ -25,5 +29,36 @@ export default class ServerHub {
 
     public get numLobbies(): number {
         return Object.keys(this._lobbies).length;
+    }
+
+    private static _alphabet = 'abcdefghijklmnopqrstuvwxyz';
+    /** Collisions are possible. */
+    private static makeRandomLobbyCode(): string {
+        const codeLength = 3 + Math.floor(Math.random() * 3); // 3 to 5 (inclusive)
+        let code = '';
+        for (let i = 0; i < codeLength; i++) {
+            const index = Math.floor(Math.random() * 26); // 0 to 26 (exclusive)
+            code += this._alphabet[index];
+        }
+        return code;
+    }
+
+    public async createLobby(user: BaseUser): Promise<void> {
+        let waitAttempts = 0;
+        while (!this._ready && waitAttempts < 10) {
+            waitAttempts++;
+            await wait(100);
+        }
+        if (!this._ready) throw new Error('Server not ready');
+
+        let lobbyCode = ServerHub.makeRandomLobbyCode();
+        let rerollAttempts = 0;
+        while (this._lobbies[lobbyCode] !== undefined) {
+            lobbyCode = ServerHub.makeRandomLobbyCode();
+            rerollAttempts++;
+            if (rerollAttempts > 10) throw new Error('Too many lobby code collisions');
+        }
+
+        this._lobbies[lobbyCode] = new Lobby(this._httpServer, user, lobbyCode);
     }
 }
