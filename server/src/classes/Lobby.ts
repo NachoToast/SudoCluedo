@@ -3,9 +3,9 @@ import { Server as HTTPServer } from 'http';
 import { BaseUser } from '../../../shared/User';
 import Game from './Game';
 
-/** A wrapper for a game. All games have a lobby but not all lobbies have games.
+/** A wrapper for a game. All games have a lobby but not all lobbies have a game.
  *
- * A lobby can only have 1 game.
+ * A lobby can only have 1 game, and will only have one if it's ongoing.
  */
 export default class Lobby {
     public readonly code: string;
