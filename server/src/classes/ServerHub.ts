@@ -21,8 +21,7 @@ export default class ServerHub {
         this.app.use(routes);
 
         this._httpServer.listen(port, () => {
-            const msg = `SudoCluedo server started on port ${port}`;
-            console.log(msg);
+            console.log(`SudoCluedo server started on port ${port}`);
             this._ready = true;
         });
     }
@@ -32,7 +31,10 @@ export default class ServerHub {
     }
 
     private static _alphabet = 'abcdefghijklmnopqrstuvwxyz';
-    /** Collisions are possible. */
+    /** Makes a random lobby code.
+     *
+     * Collisions are possible.
+     * */
     private static makeRandomLobbyCode(): string {
         const codeLength = 3 + Math.floor(Math.random() * 3); // 3 to 5 (inclusive)
         let code = '';
@@ -43,6 +45,12 @@ export default class ServerHub {
         return code;
     }
 
+    /** Attempts to create a lobby.
+     *
+     * @param {BaseUser} user - The user that invoked lobby creation. Does not have to be a full user.
+     *
+     * @throws Throws an error if the server is unable to be ready in time.
+     */
     public async createLobby(user: BaseUser): Promise<void> {
         let waitAttempts = 0;
         while (!this._ready && waitAttempts < 10) {
