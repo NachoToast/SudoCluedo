@@ -16,19 +16,13 @@ export default class ServerHub {
     /** Whether the server is ready to start accepting lobby creation requests. */
     private _ready = false;
 
-    public constructor(port: number) {
+    public constructor() {
         this.app.use(express.json());
         this.app.use(routes);
-
-        this._httpServer.listen(port, () => {
-            console.log(`SudoCluedo server started on port ${port}`);
+        this.app.listen(process.env.PORT, () => {
+            console.log(`SudoCluedo server started on port ${process.env.PORT}`);
             this._ready = true;
         });
-    }
-
-    public close(): void {
-        this._ready = false;
-        this._httpServer.close();
     }
 
     public get numLobbies(): number {

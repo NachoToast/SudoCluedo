@@ -3,10 +3,6 @@ import Lobby from '../classes/Lobby';
 import httpClient from '../tests/httpClient';
 
 describe('GET /numLobbies', () => {
-    afterAll(() => {
-        serverHub.close();
-    });
-
     it('should return number of lobbies', async () => {
         const { data: data0 } = await httpClient.get('/numLobbies');
         expect(data0).toBe(0);

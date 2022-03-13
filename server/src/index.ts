@@ -3,4 +3,4 @@ import { config } from 'dotenv';
 
 config();
 
-export const serverHub = new ServerHub(3001);
+export const serverHub = new ServerHub();
