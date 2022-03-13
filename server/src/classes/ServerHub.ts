@@ -19,19 +19,10 @@ export default class ServerHub {
     public constructor() {
         this.app.use(express.json());
         this.app.use(routes);
-    }
-
-    public start(): void {
         this._httpServer.listen(process.env.PORT, () => {
             console.log(`SudoCluedo server started on port ${process.env.PORT}`);
             this._ready = true;
         });
-    }
-
-    public stop(): void {
-        this._httpServer.close();
-        console.log('SudoCluedo server stopped');
-        this._ready = false;
     }
 
     public get numLobbies(): number {
