@@ -1,7 +1,7 @@
 export interface ClientToServerEvents {
-    connectAction: (action: 'login' | 'signup') => void;
+    hereIsToken: (token: string) => void;
 }
 
 export interface ServerToClientEvents {
-    ligmaBalls: () => void;
+    giveMeToken: () => void;
 }
