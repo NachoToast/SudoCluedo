@@ -26,6 +26,11 @@ export default class ServerHub {
         });
     }
 
+    public close(): void {
+        this._ready = false;
+        this._httpServer.close();
+    }
+
     public get numLobbies(): number {
         return Object.keys(this._lobbies).length;
     }
