@@ -19,7 +19,7 @@ export default class ServerHub {
     public constructor() {
         this.app.use(express.json());
         this.app.use(routes);
-        this.app.listen(process.env.PORT, () => {
+        this._httpServer.listen(process.env.PORT, () => {
             console.log(`SudoCluedo server started on port ${process.env.PORT}`);
             this._ready = true;
         });

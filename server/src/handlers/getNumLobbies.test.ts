@@ -18,5 +18,7 @@ describe('GET /numLobbies', () => {
 
         const { data: data2 } = await httpClient.get('/numLobbies');
         expect(data2).toBe(4);
+
+        serverHub['_httpServer'].close();
     });
 });
