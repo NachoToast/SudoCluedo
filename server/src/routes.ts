@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import getNumLobbies from '../handlers/getNumLobbies';
+import getNumLobbies from './handlers/getNumLobbies';
 
 const router = Router();
 

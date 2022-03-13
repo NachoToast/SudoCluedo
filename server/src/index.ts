@@ -1,3 +1,6 @@
 import ServerHub from './classes/ServerHub';
+import { config } from 'dotenv';
 
-export const serverHub = new ServerHub(3001);
+config();
+
+export const serverHub = new ServerHub();
