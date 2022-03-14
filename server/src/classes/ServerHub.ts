@@ -4,12 +4,15 @@ import { createServer } from 'http';
 import routes from '../routes';
 import { BaseUser } from '../../../shared/User';
 import { promisify } from 'util';
+import mongoose from 'mongoose';
+import GuestTracker from './GuestTracker';
 
 const wait = promisify(setTimeout);
 
 /** Manages listing, creation, and deletion of lobbies. */
 export default class ServerHub {
     public readonly app = express();
+    public readonly guestTracker: GuestTracker = new GuestTracker();
 
     private readonly _lobbies: Record<string, Lobby> = {};
     private readonly _httpServer = createServer(this.app);
@@ -19,10 +22,26 @@ export default class ServerHub {
     public constructor() {
         this.app.use(express.json());
         this.app.use(routes);
-        this._httpServer.listen(process.env.PORT, () => {
-            console.log(`SudoCluedo server started on port ${process.env.PORT}`);
+
+        this.initialize();
+    }
+
+    private async initialize() {
+        try {
+            const port = process.env.port;
+            if (!port) throw new Error('Missing PORT in .env');
+            const mongoUri = process.env.MONGO_URI;
+            if (!mongoUri) throw new Error('Missing MONGO_URI in .env');
+
+            const listenPromise = new Promise<void>((resolve) => this._httpServer.listen(port, resolve));
+            const connectPromise = mongoose.connect(mongoUri);
+            await Promise.all([listenPromise, connectPromise]);
+            console.log(`SudoCluedo started on port ${port}`);
             this._ready = true;
-        });
+        } catch (error) {
+            console.log(error);
+            process.exit(1);
+        }
     }
 
     public get numLobbies(): number {
