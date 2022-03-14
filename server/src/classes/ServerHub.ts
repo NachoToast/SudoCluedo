@@ -6,6 +6,7 @@ import { BaseUser } from '../../../shared/User';
 import { promisify } from 'util';
 import mongoose from 'mongoose';
 import GuestTracker from './GuestTracker';
+import cors, { CorsOptions } from 'cors';
 
 const wait = promisify(setTimeout);
 
@@ -20,6 +21,20 @@ export default class ServerHub {
     private _ready = false;
 
     public constructor() {
+        const whitelist = [
+            'http://localhost:3000',
+            'http://127.0.0.1:3000',
+            'http://localhost:3001',
+            'http://127.0.0.1:3001',
+        ];
+        const corsOptions: CorsOptions = {
+            origin: (origin, callback) => {
+                if (!origin || whitelist.includes(origin)) callback(null, true);
+                else callback(new Error('Not allowed by CORS'));
+            },
+        };
+
+        this.app.use(cors(corsOptions));
         this.app.use(express.json());
         this.app.use(routes);
 
