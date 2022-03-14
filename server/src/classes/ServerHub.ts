@@ -4,7 +4,7 @@ import { createServer } from 'http';
 import routes from '../routes';
 import { BaseUser } from '../../../shared/User';
 import { promisify } from 'util';
-import cors from 'cors';
+// import cors from 'cors';
 
 const wait = promisify(setTimeout);
 
@@ -18,7 +18,7 @@ export default class ServerHub {
     private _ready = false;
 
     public constructor() {
-        this.app.use(cors());
+        // this.app.use(cors());
         this.app.use(express.json());
         this.app.use(routes);
         this._httpServer.listen(process.env.PORT, () => {
