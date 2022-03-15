@@ -9,8 +9,8 @@ router.get('/numLobbies', getNumLobbies);
 
 router.get('/', (_, res) => res.status(200).send('sussy'));
 
-router.get('/signup', signup);
-router.get('/login', login);
-router.get('/guestSignup', guestSignup);
+router.post('/signup', signup);
+router.post('/login', login);
+router.post('/guestSignup', guestSignup);
 
 export default router;
